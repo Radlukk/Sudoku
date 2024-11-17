@@ -1,0 +1,22 @@
+<VirtualHost *:443>
+    ServerAdmin Occhio.luk@outlook.it
+    ServerName oculusindex.org
+    ServerAlias www.oculusindex.org
+
+    DocumentRoot "/var/www/nextcloud/"
+    SSLCertificateFile /etc/letsencrypt/live/oculusindex.org/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/oculusindex.org/privkey.pem
+
+     <Directory "/var/www/nextcloud/">
+        Options MultiViews FollowSymlinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+     <IfModule mod_headers.c>
+        Header always set Strict-Transport-Security "max-age=31536000; includeSubdomains"
+    </IfModule>
+
+    TransferLog /var/log/apache2/nextcloud_access_ssl.log
+    ErrorLog /var/log/apache2/nextcloud_error_ssl.log
+</VirtualHost>

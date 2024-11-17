@@ -1,0 +1,27 @@
+ <VirtualHost *:80>
+     ServerAdmin Occhio.luk@outlook.it
+     ServerName oculusindex.org
+     ServerAlias www.oculusindex.org
+
+     DocumentRoot "/var/www/nextcloud"
+
+     <Directory "/var/www/nextcloud/">
+         Options MultiViews FollowSymlinks
+         AllowOverride All
+         Require all granted
+    </Directory>
+
+     <IfModule mod_rewrite.c>
+        RewriteEngine on
+        RewriteCond %{HTTPS} off
+        RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [END,QSA,R=permanent]
+    </IfModule>
+
+     <IfModule mod_headers.c>
+        Header always set Strict-Transport-Security "max-age=31536000; includeSubdomains"
+    </IfModule>
+
+    TransferLog /var/log/apache2/nextcloud_access.log
+    ErrorLog /var/log/apache2/nextcloud_error.log
+
+ </VirtualHost>
